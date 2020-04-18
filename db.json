@@ -1,16 +1,6 @@
 {
   "students": [
     {
-      "name": "Rodobaldo Cupull",
-      "age": 45,
-      "sex": "Male",
-      "birthday": "0004-05-12",
-      "cityId": 1,
-      "email": "sdasdf@afasfd",
-      "groupId": 8,
-      "id": 3
-    },
-    {
       "name": "Juan Jose",
       "age": 50,
       "sex": "Male",

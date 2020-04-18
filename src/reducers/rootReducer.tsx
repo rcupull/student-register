@@ -36,7 +36,7 @@ export const RootReducer: Reducer<RootReducerState, ReduxAction> = (
 ) => {
   switch (action.type) {
     case "FETCHING":
-      return { ...state, fetching: true, error: false };
+      return { ...state, fetching: true };
     case "FETCH_ERROR":
       return { ...state, fetching: false, error: true };
     case "FETCH_STUDENTS_SUCCESS":

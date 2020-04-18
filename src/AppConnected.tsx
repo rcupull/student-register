@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as ReactRedux from "react-redux";
 
 import { Container } from "react-bootstrap";
@@ -18,7 +18,9 @@ import { Actions } from "./reducers/actions";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 export interface OwnProps {}
-export interface StateProps {}
+export interface StateProps {
+  error: boolean;
+}
 export interface DispatchProps {
   loadCities: () => void;
   loadProffesors: () => void;
@@ -28,12 +30,37 @@ type AppConnectedProps = OwnProps & StateProps & DispatchProps;
 
 const AppConnected: React.SFC<AppConnectedProps> = ({
   loadCities,
-  loadProffesors
+  loadProffesors,
+  error
 }) => {
-  useEffect(() => {
+  const [time, setTime] = useState<NodeJS.Timeout>(setTimeout(() => {}, 1));
+  const handleLoad = () => {
     loadCities();
     loadProffesors();
-  }, [loadCities, loadProffesors]);
+  };
+
+  const stopTimer = () => {
+    clearInterval(time);
+  };
+  const startTimer = () => {
+    setTime(
+      setInterval(() => {
+        handleLoad();
+      }, 5000)
+    );
+  };
+
+  const handleCheckError = () => {
+    if (error) {
+      startTimer();
+    } else {
+      stopTimer();
+    }
+  };
+
+  useEffect(() => {
+    handleCheckError();
+  }, [error]);
 
   return (
     <Container>
@@ -55,7 +82,9 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   OwnProps,
   RootReducerState
 > = (state, ownProps) => {
-  return {};
+  return {
+    error: state.error
+  };
 };
 
 const MapDispatchToProps: ReactRedux.MapDispatchToProps<
