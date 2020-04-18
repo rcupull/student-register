@@ -1,0 +1,100 @@
+{
+  "students": [
+    {
+      "name": "Rodobaldo Cupull",
+      "age": 45,
+      "sex": "Male",
+      "birthday": "0004-05-12",
+      "cityId": 1,
+      "email": "sdasdf@afasfd",
+      "groupId": 8,
+      "id": 3
+    },
+    {
+      "name": "Juan Jose",
+      "age": 50,
+      "sex": "Male",
+      "birthday": "0004-06-25",
+      "cityId": 1,
+      "email": "jose@gmail.com",
+      "groupId": 12,
+      "id": 4
+    }
+  ],
+  "groups": [
+    {
+      "name": "A-85",
+      "professorId": 3,
+      "id": 8
+    },
+    {
+      "name": "H-90",
+      "professorId": 5,
+      "id": 12
+    }
+  ],
+  "professors": [
+    {
+      "id": 1,
+      "name": "Rafael Ramirez"
+    },
+    {
+      "id": 2,
+      "name": "Carmen Benitez"
+    },
+    {
+      "id": 3,
+      "name": "Francisco Pompa"
+    },
+    {
+      "id": 4,
+      "name": "Angel F. Cordova"
+    },
+    {
+      "id": 5,
+      "name": "Maria Sanchez"
+    },
+    {
+      "id": 6,
+      "name": "Ernesto Perez"
+    },
+    {
+      "id": 7,
+      "name": "Elva Lopez"
+    }
+  ],
+  "cities": [
+    {
+      "id": 1,
+      "name": "Santiago de Cuba"
+    },
+    {
+      "id": 2,
+      "name": "Habana"
+    },
+    {
+      "id": 3,
+      "name": "Matanzas"
+    },
+    {
+      "id": 4,
+      "name": "Villa Clara"
+    },
+    {
+      "id": 5,
+      "name": "Camagüey"
+    },
+    {
+      "id": 6,
+      "name": "Holguin"
+    },
+    {
+      "id": 7,
+      "name": "Las Tunas"
+    },
+    {
+      "id": 8,
+      "name": "Pinar del Rio"
+    }
+  ]
+}
