@@ -6,6 +6,7 @@ import NavBar from "./presentational/navBar";
 import Home from "./presentational/home";
 import Insert from "./presentational/insert";
 import Register from "./presentational/register";
+import RouteConnected from "./components/routeConnected";
 import {
   homeRoute,
   insertFormRoute,
@@ -40,8 +41,8 @@ const AppConnected: React.SFC<AppConnectedProps> = ({
         <NavBar />
         <Switch>
           <Route exact path={homeRoute} component={Home} />
-          <Route path={insertFormRoute} component={Insert} />
-          <Route path={registerListRoute} component={Register} />
+          <RouteConnected path={insertFormRoute} component={Insert} />
+          <RouteConnected path={registerListRoute} component={Register} />
           <Redirect to={homeRoute} />
         </Switch>
       </BrowserRouter>

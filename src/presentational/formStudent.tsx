@@ -3,7 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { SexTypes } from "../utils/dataTypes";
 import { City, Group, Student } from "../utils/dataTypes";
 import * as styles from "../components/stylesComponent";
-
+import { Redirect } from "react-router-dom";
+import { homeRoute } from "../utils/definitions";
 import * as ReactRedux from "react-redux";
 import { RootReducerState } from "../reducers/rootReducer";
 import { Actions } from "../reducers/actions";

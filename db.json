@@ -19,6 +19,16 @@
       "email": "jose@gmail.com",
       "groupId": 12,
       "id": 4
+    },
+    {
+      "name": "New user",
+      "age": 56,
+      "sex": "Male",
+      "birthday": "0089-06-25",
+      "cityId": 1,
+      "email": "asdada@sfgsdfg",
+      "groupId": 12,
+      "id": 5
     }
   ],
   "groups": [

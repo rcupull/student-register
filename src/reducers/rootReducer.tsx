@@ -26,7 +26,7 @@ const initialState: RootReducerState = {
   students: [],
   groups: [],
   professors: [],
-  error: false,
+  error: true,
   fetching: false,
   currentFilterVs: defaultFilterVs
 };
