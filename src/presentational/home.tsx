@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card } from "react-bootstrap";
 import * as styles from "../components/stylesComponent";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import * as ReactRedux from "react-redux";
 export interface OwnProps {}
 export interface StateProps {

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Group, City, Professor, Student } from "./dataTypes";
+import { Group, City, Professor, Student } from "../reducers/dataTypes";
 
 const defaultResponse: string = "< Not found >";
 

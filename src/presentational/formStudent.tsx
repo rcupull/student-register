@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { SexTypes } from "../utils/dataTypes";
-import { City, Group, Student } from "../utils/dataTypes";
+import { SexTypes } from "../reducers/dataTypes";
+import { City, Group, Student } from "../reducers/dataTypes";
 import * as styles from "../components/stylesComponent";
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import { Actions } from "../reducers/actions";
 export interface OwnProps {}
 export interface StateProps {
@@ -13,8 +13,8 @@ export interface StateProps {
   fetching: boolean;
 }
 export interface DispatchProps {
-  // handlePostStudent: (student: Student) => void;
-  // handleloadGroups: () => void;
+  handlePostStudent: (student: Student) => void;
+  handleLoadGroups: () => void;
 }
 
 type FormStudentProps = OwnProps & StateProps & DispatchProps;
@@ -22,9 +22,9 @@ type FormStudentProps = OwnProps & StateProps & DispatchProps;
 const FormStudent: React.SFC<FormStudentProps> = ({
   listGroups,
   listCities,
-  fetching
-  // handlePostStudent,
-  // handleloadGroups
+  fetching,
+  handlePostStudent,
+  handleLoadGroups
 }) => {
   const [name, setName] = useState<string>("");
   const [age, setAge] = useState<string>("");
@@ -42,11 +42,11 @@ const FormStudent: React.SFC<FormStudentProps> = ({
     if (listGroups.length) setGroupId(listGroups[0].id);
   };
 
-  // useEffect(() => {
-  //   handleResetCityId();
-  //   handleResetGroupId();
-  //   handleloadGroups();
-  // }, []);
+  useEffect(() => {
+    handleResetCityId();
+    handleResetGroupId();
+    handleLoadGroups();
+  }, []);
 
   const handlesResetAll = () => {
     setName("");
@@ -61,16 +61,16 @@ const FormStudent: React.SFC<FormStudentProps> = ({
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    // handlePostStudent({
-    //   name: name,
-    //   age: Number(age),
-    //   sex: sex,
-    //   birthday: birthday,
-    //   cityId: cityId,
-    //   email: email,
-    //   groupId: groupId,
-    //   id: 0
-    // });
+    handlePostStudent({
+      name: name,
+      age: Number(age),
+      sex: sex,
+      birthday: birthday,
+      cityId: cityId,
+      email: email,
+      groupId: groupId,
+      id: 0
+    });
 
     handlesResetAll();
   };
@@ -219,8 +219,8 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  // handlePostStudent: Actions.PostStudentThunk,
-  // handleloadGroups: Actions.FetchGroupsThunk
+  handlePostStudent: Actions.PostStudents,
+  handleLoadGroups: Actions.FetchGroups
 };
 
 export default ReactRedux.connect(

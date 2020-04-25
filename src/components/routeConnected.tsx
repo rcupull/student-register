@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { homeRoute } from "../utils/definitions";
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 export interface OwnProps {
   component: any;
   path: string;

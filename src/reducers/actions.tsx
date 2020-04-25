@@ -1,25 +1,35 @@
 import { Action, Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 import axios from "axios";
-import * as def from "../utils/definitions";
-import * as types from "../utils/dataTypes";
+import { GetURL } from "../utils/definitions";
+import { Item, FilterVs, RootReducerState, Student, Group } from "./dataTypes";
 
-type ActionType =
-  | "FETCHING"
-  | "ERROR_FETCH"
-  | "SUCCESS_FETCH"
-  | "FETCH_STUDENTS_SUCCESS"
-  | "FETCH_CITIES_SUCCESS"
-  | "FETCH_GROUPS_SUCCESS"
-  | "FETCH_PROFESSORS_SUCCESS"
-  | "POST_STUDENT_SUCCESS"
-  | "POST_GROUP_SUCCESS"
-  | "DELETE_STUDENT_SUCCESS"
-  | "DELETE_GROUP_SUCCESS"
-  | "CHANGE_FILTER";
+export type OwnAction =
+  | { type: "FETCHING"; item: Item }
+  | { type: "ERROR_FETCH"; item: Item }
+  | { type: "SUCCESS_FETCH"; item: Item; data: any[] }
+  | { type: "SUCCESS_POST"; item: Item }
+  | { type: "SUCCESS_DELETE"; item: Item }
+  | { type: "CHANGE_FILTER"; vsFilter: FilterVs };
 
-export interface ReduxAction<T> extends Action<ActionType> {
-  payload: T;
-}
+// type ActionType =
+//   | "FETCHING"
+//   | "ERROR_FETCH"
+//   | "SUCCESS_FETCH"
+//   | "FETCH_STUDENTS_SUCCESS"
+//   | "FETCH_CITIES_SUCCESS"
+//   | "FETCH_GROUPS_SUCCESS"
+//   | "FETCH_PROFESSORS_SUCCESS"
+//   | "POST_STUDENT_SUCCESS"
+//   | "POST_GROUP_SUCCESS"
+//   | "DELETE_STUDENT_SUCCESS"
+//   | "DELETE_GROUP_SUCCESS"
+//   | "CHANGE_FILTER";
+
+// export interface OwnAction<T> extends Action<ActionType> {
+//   payload: T;
+// }
+type ThunkResult<R> = ThunkAction<R, RootReducerState, undefined, OwnAction>;
 ///////////////////////////////////Action Creators///////////////////
 // const PostStudentSucces = (student: dataTypes.Student): ReduxAction => {
 //   return { type: "POST_STUDENT_SUCCESS", payload: student };
@@ -35,109 +45,124 @@ export interface ReduxAction<T> extends Action<ActionType> {
 // };
 
 //////////////////////////////////////////////////////////
-const FetchingAction = (
-  item: types.Payload_Items
-): ReduxAction<types.Payload_Items> => {
-  return { type: "FETCHING", payload: item };
+const FetchingAction = (item: Item): OwnAction => {
+  return { type: "FETCHING", item: item };
 };
-const FetchErrorAction = (
-  item: types.Payload_Items
-): ReduxAction<types.Payload_Items> => {
-  return { type: "ERROR_FETCH", payload: item };
+const FetchErrorAction = (item: Item): OwnAction => {
+  return { type: "ERROR_FETCH", item: item };
 };
-const FetchSuccessAction = (
-  item: types.Payload_Items,
-  data: any[]
-): ReduxAction<types.Payload_SuccessFetch> => {
+const FetchSuccessAction = (item: Item, data: any[]): OwnAction => {
   return {
-    type: "FETCH_STUDENTS_SUCCESS",
-    payload: { item: item, data: data }
+    type: "SUCCESS_FETCH",
+    item: item,
+    data: data
   };
 };
-
-// const FetchStudentSuccessAction = (data: Student[]): ReduxAction => {
-//   return { type: "FETCH_STUDENTS_SUCCESS", payload: data };
-// };
-// const FetchGroupSuccessAction = (data: Group[]): ReduxAction => {
-//   return { type: "FETCH_GROUPS_SUCCESS", payload: data };
-// };
-// const FetchCitiesSuccessAction = (data: City[]): ReduxAction => {
-//   return { type: "FETCH_CITIES_SUCCESS", payload: data };
-// };
-// const FetchProfessorsSuccessAction = (data: Professor[]): ReduxAction => {
-//   return { type: "FETCH_PROFESSORS_SUCCESS", payload: data };
-// };
+const PostSuccessAction = (item: Item): OwnAction => {
+  return {
+    type: "SUCCESS_POST",
+    item: item
+  };
+};
+const DeleteSuccessAction = (item: Item): OwnAction => {
+  return {
+    type: "SUCCESS_DELETE",
+    item: item
+  };
+};
 // //////////////////////////////////////////////////////////
-const ChangeFilterVsAction = (
-  filterVs: types.FilterVs
-): ReduxAction<types.FilterVs> => {
-  return { type: "CHANGE_FILTER", payload: filterVs };
+const ChangeVsFilterAction = (vsFilter: FilterVs): OwnAction => {
+  return { type: "CHANGE_FILTER", vsFilter: vsFilter };
 };
 
 //////////////////////////////////////////////////////////
-const FetchThunk = (item: types.Payload_Items) => (
-  dispatch: Dispatch<ReduxAction<any>>
-) => {
+const FetchThunk = (item: Item): ThunkResult<void> => (dispatch, getState) => {
+  if (!getState()[item].isUpdated) {
+    dispatch(FetchingAction(item));
+    const error = () => {
+      dispatch(FetchErrorAction(item));
+    };
+    const success = (res: any) => {
+      dispatch(FetchSuccessAction(item, res.data));
+    };
+    axios({ method: "get", url: GetURL(item) })
+      .then(success)
+      .catch(error);
+  }
+};
+
+const FetchCities = (): ThunkResult<void> => dispatch => {
+  dispatch(FetchThunk("cities"));
+};
+const FetchStudents = (): ThunkResult<void> => dispatch => {
+  dispatch(FetchThunk("students"));
+};
+const FetchProfessors = (): ThunkResult<void> => dispatch => {
+  dispatch(FetchThunk("professors"));
+};
+const FetchGroups = (): ThunkResult<void> => dispatch => {
+  dispatch(FetchThunk("groups"));
+};
+///////////////////////////////////////////////////////////////////
+const PostThunk = (
+  item: Item,
+  data: Student | Group
+): ThunkResult<void> => dispatch => {
   dispatch(FetchingAction(item));
   const error = () => {
     dispatch(FetchErrorAction(item));
   };
   const success = (res: any) => {
-    dispatch(FetchSuccessAction(item, res.data));
+    dispatch(PostSuccessAction(item));
   };
-  axios({ method: "get", url: def.GetURL(item) })
+  axios({ method: "post", url: GetURL(item), data: data })
+    .then(success)
+    .catch(error);
+};
+const PostStudents = (student: Student): ThunkResult<void> => dispatch => {
+  dispatch(PostThunk("students", student));
+};
+const PostGroup = (group: Group): ThunkResult<void> => dispatch => {
+  dispatch(PostThunk("groups", group));
+};
+
+///////////////////////////////////////////////////////
+const DeleteThunk = (
+  item: Item,
+  data: Student | Group
+): ThunkResult<void> => dispatch => {
+  dispatch(FetchingAction(item));
+  const error = () => {
+    dispatch(FetchErrorAction(item));
+  };
+  const success = (res: any) => {
+    dispatch(DeleteSuccessAction(item));
+  };
+
+  axios({ method: "delete", url: GetURL(item) + "/" + data.id })
     .then(success)
     .catch(error);
 };
 
-// const FetchStudentsThunk = () => (dispatch: Dispatch<ReduxAction<any>>) => {
-//   dispatch(FetchingAction());
-//   const error = () => {
-//     dispatch(FetchErrorAction());
-//   };
-//   const success = (res: any) => {
-//     dispatch(FetchStudentSuccessAction(res.data));
-//   };
-//   axios(def.getStudentsRequestConfig)
-//     .then(success)
-//     .catch(error);
-// };
-// const FetchProfessorsThunk = () => (dispatch: Dispatch<ReduxAction>) => {
-//   dispatch(FetchingAction());
-//   const error = () => {
-//     dispatch(FetchErrorAction());
-//   };
-//   const success = (res: any) => {
-//     dispatch(FetchProfessorsSuccessAction(res.data));
-//   };
-//   axios(def.getProfessorsRequestConfig)
-//     .then(success)
-//     .catch(error);
-// };
-// const FetchCitiesThunk = () => (dispatch: Dispatch<ReduxAction>) => {
-//   dispatch(FetchingAction());
-//   const error = () => {
-//     dispatch(FetchErrorAction());
-//   };
-//   const success = (res: any) => {
-//     dispatch(FetchCitiesSuccessAction(res.data));
-//   };
-//   axios(def.getCitiesRequestConfig)
-//     .then(success)
-//     .catch(error);
-// };
-// const FetchGroupsThunk = () => (dispatch: Dispatch<ReduxAction>) => {
-//   dispatch(FetchingAction());
-//   const error = () => {
-//     dispatch(FetchErrorAction());
-//   };
-//   const success = (res: any) => {
-//     dispatch(FetchGroupSuccessAction(res.data));
-//   };
-//   axios(def.getGroupRequestConfig)
-//     .then(success)
-//     .catch(error);
-// };
+const DeleteStudent = (student: Student): ThunkResult<void> => dispatch => {
+  dispatch(DeleteThunk("students", student));
+};
+const DeleteGroup = (group: Group): ThunkResult<void> => dispatch => {
+  dispatch(DeleteThunk("groups", group));
+};
+///////////////////////////////////////////////////////
+export const Actions = {
+  FetchStudents,
+  FetchProfessors,
+  FetchGroups,
+  FetchCities,
+  PostStudents,
+  PostGroup,
+  DeleteStudent,
+  DeleteGroup,
+  ChangeVsFilterAction
+};
+
 //////////////////////////////////////////////////////////
 
 // const PostStudentThunk = (student: Student) => (
@@ -203,16 +228,3 @@ const FetchThunk = (item: types.Payload_Items) => (
 //     .then(success)
 //     .catch(error);
 // };
-
-export const Actions = {
-  FetchThunk,
-  // FetchCitiesThunk,
-  // FetchGroupsThunk,
-  // FetchProfessorsThunk,
-  // FetchStudentsThunk,
-  // PostStudentThunk,
-  // PostGroupThunk,
-  // DeleteStudentThunk,
-  // DeleteGroupThunk,
-  ChangeFilterVsAction
-};

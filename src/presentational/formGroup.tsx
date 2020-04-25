@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Group, Professor } from "../utils/dataTypes";
+import { Group, Professor } from "../reducers/dataTypes";
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import { Actions } from "../reducers/actions";
 import * as styles from "../components/stylesComponent";
 export interface OwnProps {}
@@ -10,14 +10,14 @@ export interface StateProps {
   listProfessors: Professor[];
 }
 export interface DispatchProps {
-  // handlePostGroup: (group: Group) => void;
+  handlePostGroup: (group: Group) => void;
 }
 
 type FormGroupProps = OwnProps & StateProps & DispatchProps;
 
 const FormGroup: React.SFC<FormGroupProps> = ({
-  listProfessors
-  // handlePostGroup
+  listProfessors,
+  handlePostGroup
 }) => {
   const [name, setName] = useState<string>("");
   const [professorId, setProfessorId] = useState<number>(1);
@@ -40,7 +40,7 @@ const FormGroup: React.SFC<FormGroupProps> = ({
       professorId: professorId,
       id: 0
     };
-    // handlePostGroup(group);
+    handlePostGroup(group);
   };
 
   const handleProfessorSelector = () => {
@@ -104,7 +104,7 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  // handlePostGroup: Actions.PostGroupThunk
+  handlePostGroup: Actions.PostGroup
 };
 
 export default ReactRedux.connect(

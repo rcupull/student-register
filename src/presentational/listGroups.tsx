@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Group, Professor } from "../utils/dataTypes";
+import { Group, Professor } from "../reducers/dataTypes";
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import { Actions } from "../reducers/actions";
 import { Table, Button } from "react-bootstrap";
 import { IdToName } from "../utils/utilsFunctions";
@@ -14,23 +14,23 @@ export interface StateProps {
   listProfessors: Professor[];
 }
 export interface DispatchProps {
-  // handleDeleteGroup: (group: Group) => void;
-  // handleLoadProfessor: () => void;
-  // handleLoadGroup: () => void;
+  handleDeleteGroup: (group: Group) => void;
+  handleLoadProfessor: () => void;
+  handleLoadGroup: () => void;
 }
 type ListGroupsProps = OwnProps & StateProps & DispatchProps;
 
 const ListGroups: React.SFC<ListGroupsProps> = ({
   listGroups,
-  listProfessors
-  // handleDeleteGroup,
-  // handleLoadGroup,
-  // handleLoadProfessor
+  listProfessors,
+  handleDeleteGroup,
+  handleLoadGroup,
+  handleLoadProfessor
 }) => {
-  // useEffect(() => {
-  //   handleLoadProfessor();
-  //   handleLoadGroup();
-  // }, []);
+  useEffect(() => {
+    handleLoadProfessor();
+    handleLoadGroup();
+  }, []);
 
   return (
     <Table striped bordered hover style={styles.listTableBodyStyle}>
@@ -51,7 +51,7 @@ const ListGroups: React.SFC<ListGroupsProps> = ({
               <Button
                 style={styles.listDeleteButtonStyle}
                 onClick={() => {
-                  // handleDeleteGroup(group);
+                  handleDeleteGroup(group);
                 }}
               >
                 Delete
@@ -81,9 +81,9 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  // handleLoadProfessor: Actions.FetchProfessorsThunk,
-  // handleLoadGroup: Actions.FetchGroupsThunk,
-  // handleDeleteGroup: Actions.DeleteGroupThunk
+  handleLoadProfessor: Actions.FetchProfessors,
+  handleLoadGroup: Actions.FetchGroups,
+  handleDeleteGroup: Actions.DeleteGroup
 };
 
 export default ReactRedux.connect(

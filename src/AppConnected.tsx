@@ -13,7 +13,7 @@ import {
   registerListRoute
 } from "./utils/definitions";
 
-import { RootReducerState } from "./reducers/rootReducer";
+import { RootReducerState } from "./reducers/dataTypes";
 import { Actions } from "./reducers/actions";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -23,20 +23,20 @@ export interface StateProps {
 }
 export interface DispatchProps {
   loadCities: () => void;
-  // loadProffesors: () => void;
+  loadProffesors: () => void;
 }
 
 type AppConnectedProps = OwnProps & StateProps & DispatchProps;
 
 const AppConnected: React.SFC<AppConnectedProps> = ({
   loadCities,
-  // loadProffesors,
+  loadProffesors,
   error
 }) => {
   const [time, setTime] = useState<NodeJS.Timeout>(setTimeout(() => {}, 1));
   const handleLoad = () => {
     loadCities();
-    // loadProffesors();
+    loadProffesors();
   };
 
   const stopTimer = () => {
@@ -60,10 +60,9 @@ const AppConnected: React.SFC<AppConnectedProps> = ({
 
   useEffect(() => {
     loadCities();
-    // loadProffesors();
-
+    loadProffesors();
     // handleCheckError();
-  }, [error]);
+  }, []);
 
   return (
     <Container>
@@ -94,10 +93,8 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  loadCities: Actions.FetchThunk("cities")
-  // loadProffesors: () => {
-  //   Actions.FetchThunk("professors");
-  // }
+  loadCities: Actions.FetchCities,
+  loadProffesors: Actions.FetchProfessors
 };
 
 export default ReactRedux.connect(

@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from "react";
-import { Student, Group, City, Professor } from "../utils/dataTypes";
+import { Student, Group, City, Professor } from "../reducers/dataTypes";
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import { Actions } from "../reducers/actions";
 import { Table, Button } from "react-bootstrap";
 import { IdToName, StudentToProfessorName } from "../utils/utilsFunctions";
@@ -28,23 +28,29 @@ export interface StateProps {
   listCities: City[];
   listProfessors: Professor[];
 }
-export interface DispatchProps {}
+export interface DispatchProps {
+  handleDeleteStudent: (student: Student) => void;
+  handleLoadStudents: () => void;
+  handleLoadGroup: () => void;
+}
 type ListStudentsProps = OwnProps & StateProps & DispatchProps;
 
 const ListStudents: React.SFC<ListStudentsProps> = ({
   listStudents,
   listGroups,
   listCities,
-  listProfessors
-  // handleDeleteStudent,
-  // handleLoadStudents,
-  // handleLoadGroup
+  listProfessors,
+  handleDeleteStudent,
+  handleLoadStudents,
+  handleLoadGroup
 }) => {
-  // useEffect(() => {
-  //   handleLoadStudents();
-  //   handleLoadGroup();
-  // }, []);
+  // console.log("inside student");
+  useEffect(() => {
+    handleLoadStudents();
+    handleLoadGroup();
+  }, []);
 
+  // console.log("listGroups", listGroups);
   return (
     <Fragment>
       <Filter />
@@ -74,7 +80,7 @@ const ListStudents: React.SFC<ListStudentsProps> = ({
                 <Button
                   style={styles.listDeleteButtonStyle}
                   onClick={() => {
-                    // handleDeleteStudent(student);
+                    handleDeleteStudent(student);
                   }}
                 >
                   Delete
@@ -97,23 +103,23 @@ const MapStateToProps: ReactRedux.MapStateToProps<
 > = (state, ownProps) => {
   var listStudents: Student[];
 
-  switch (state.currentFilterVs.type) {
+  switch (state.vsFilter.type) {
     case "City":
       listStudents = _.filter(
         state.students.data,
-        student => student.cityId === state.currentFilterVs.option
+        student => student.cityId === state.vsFilter.option
       );
       break;
     case "Group":
       listStudents = _.filter(
         state.students.data,
-        student => student.groupId === state.currentFilterVs.option
+        student => student.groupId === state.vsFilter.option
       );
       break;
     case "Professor":
       var group: Group | undefined = _.find(
         state.groups.data,
-        group => group.professorId === state.currentFilterVs.option
+        group => group.professorId === state.vsFilter.option
       );
 
       listStudents =
@@ -131,7 +137,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   }
 
   return {
-    listStudents: listStudents,
+    listStudents: state.students.data,
     listCities: state.cities.data,
     listGroups: state.groups.data,
     listProfessors: state.professors.data
@@ -142,9 +148,9 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  // handleDeleteStudent: Actions.DeleteStudentThunk,
-  // handleLoadGroup: Actions.FetchGroupsThunk,
-  // handleLoadStudents: Actions.FetchStudentsThunk
+  handleDeleteStudent: Actions.DeleteStudent,
+  handleLoadGroup: Actions.FetchGroups,
+  handleLoadStudents: Actions.FetchStudents
 };
 
 export default ReactRedux.connect(

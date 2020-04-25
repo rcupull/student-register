@@ -28,16 +28,6 @@
       "cityId": 1,
       "email": "",
       "groupId": 8,
-      "id": 7
-    },
-    {
-      "name": "",
-      "age": 0,
-      "sex": "Male",
-      "birthday": "",
-      "cityId": 1,
-      "email": "",
-      "groupId": 8,
       "id": 8
     }
   ],

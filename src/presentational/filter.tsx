@@ -10,10 +10,10 @@ import {
   FilterType,
   FilterVs,
   defaultFilterVs
-} from "../utils/dataTypes";
+} from "../reducers/dataTypes";
 
 import * as ReactRedux from "react-redux";
-import { RootReducerState } from "../reducers/rootReducer";
+import { RootReducerState } from "../reducers/dataTypes";
 import { Actions } from "../reducers/actions";
 
 export interface OwnProps {}
@@ -152,7 +152,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
     listProfessor: state.professors.data,
     listCities: state.cities.data,
     listGroups: state.groups.data,
-    currentFilterVs: state.currentFilterVs
+    currentFilterVs: state.vsFilter
   };
 };
 
@@ -160,7 +160,7 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  handleChangeFilterVs: Actions.ChangeFilterVsAction
+  handleChangeFilterVs: Actions.ChangeVsFilterAction
 };
 
 export default ReactRedux.connect(MapStateToProps, MapDispatchToProps)(Filter);

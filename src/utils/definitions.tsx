@@ -1,5 +1,4 @@
-import { AxiosRequestConfig } from "axios";
-import { Payload_Items } from "./dataTypes";
+import { Item } from "../reducers/dataTypes";
 ////////////////////////////////API/////////////////////////////
 const hostName = "http://localhost";
 const port = ":3001";
@@ -13,7 +12,7 @@ export const groupURL = hostName + port + pathGroups;
 export const professorURL = hostName + port + pathProfessors;
 export const citiesURL = hostName + port + pathCities;
 
-export const GetURL = (item: Payload_Items): string => {
+export const GetURL = (item: Item): string => {
   switch (item) {
     case "students":
       return studentsURL;
@@ -26,43 +25,6 @@ export const GetURL = (item: Payload_Items): string => {
     default:
       return "";
   }
-};
-
-export const getStudentsRequestConfig: AxiosRequestConfig = {
-  method: "GET",
-  url: studentsURL
-};
-export const getGroupRequestConfig: AxiosRequestConfig = {
-  method: "GET",
-  url: groupURL
-};
-export const getCitiesRequestConfig: AxiosRequestConfig = {
-  method: "GET",
-  url: citiesURL
-};
-export const getProfessorsRequestConfig: AxiosRequestConfig = {
-  method: "GET",
-  url: professorURL
-};
-
-export const postStudentRequestConfig: AxiosRequestConfig = {
-  method: "POST",
-  url: studentsURL
-};
-
-export const deleteStudentRequestConfig: AxiosRequestConfig = {
-  method: "DELETE",
-  url: studentsURL
-};
-
-export const deleteGroupRequestConfig: AxiosRequestConfig = {
-  method: "DELETE",
-  url: groupURL
-};
-
-export const postGroupRequestConfig: AxiosRequestConfig = {
-  method: "POST",
-  url: groupURL
 };
 
 //////////////////////////////////////ROUTES//////////////////////////
