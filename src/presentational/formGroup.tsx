@@ -10,14 +10,14 @@ export interface StateProps {
   listProfessors: Professor[];
 }
 export interface DispatchProps {
-  handlePostGroup: (group: Group) => void;
+  // handlePostGroup: (group: Group) => void;
 }
 
 type FormGroupProps = OwnProps & StateProps & DispatchProps;
 
 const FormGroup: React.SFC<FormGroupProps> = ({
-  listProfessors,
-  handlePostGroup
+  listProfessors
+  // handlePostGroup
 }) => {
   const [name, setName] = useState<string>("");
   const [professorId, setProfessorId] = useState<number>(1);
@@ -40,7 +40,7 @@ const FormGroup: React.SFC<FormGroupProps> = ({
       professorId: professorId,
       id: 0
     };
-    handlePostGroup(group);
+    // handlePostGroup(group);
   };
 
   const handleProfessorSelector = () => {
@@ -97,13 +97,15 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   OwnProps,
   RootReducerState
 > = (state, ownProps) => {
-  return { listProfessors: state.professors };
+  return { listProfessors: state.professors.data };
 };
 
 const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
-> = { handlePostGroup: Actions.PostGroupThunk };
+> = {
+  // handlePostGroup: Actions.PostGroupThunk
+};
 
 export default ReactRedux.connect(
   MapStateToProps,

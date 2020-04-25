@@ -37,7 +37,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    error: state.error
+    error: false
   };
 };
 

@@ -23,20 +23,20 @@ export interface StateProps {
 }
 export interface DispatchProps {
   loadCities: () => void;
-  loadProffesors: () => void;
+  // loadProffesors: () => void;
 }
 
 type AppConnectedProps = OwnProps & StateProps & DispatchProps;
 
 const AppConnected: React.SFC<AppConnectedProps> = ({
   loadCities,
-  loadProffesors,
+  // loadProffesors,
   error
 }) => {
   const [time, setTime] = useState<NodeJS.Timeout>(setTimeout(() => {}, 1));
   const handleLoad = () => {
     loadCities();
-    loadProffesors();
+    // loadProffesors();
   };
 
   const stopTimer = () => {
@@ -59,7 +59,10 @@ const AppConnected: React.SFC<AppConnectedProps> = ({
   };
 
   useEffect(() => {
-    handleCheckError();
+    loadCities();
+    // loadProffesors();
+
+    // handleCheckError();
   }, [error]);
 
   return (
@@ -83,7 +86,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    error: state.error
+    error: false //TODO
   };
 };
 
@@ -91,8 +94,10 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  loadCities: Actions.FetchCitiesThunk,
-  loadProffesors: Actions.FetchProfessorsThunk
+  loadCities: Actions.FetchThunk("cities")
+  // loadProffesors: () => {
+  //   Actions.FetchThunk("professors");
+  // }
 };
 
 export default ReactRedux.connect(

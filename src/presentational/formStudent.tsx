@@ -13,8 +13,8 @@ export interface StateProps {
   fetching: boolean;
 }
 export interface DispatchProps {
-  handlePostStudent: (student: Student) => void;
-  handleloadGroups: () => void;
+  // handlePostStudent: (student: Student) => void;
+  // handleloadGroups: () => void;
 }
 
 type FormStudentProps = OwnProps & StateProps & DispatchProps;
@@ -22,9 +22,9 @@ type FormStudentProps = OwnProps & StateProps & DispatchProps;
 const FormStudent: React.SFC<FormStudentProps> = ({
   listGroups,
   listCities,
-  fetching,
-  handlePostStudent,
-  handleloadGroups
+  fetching
+  // handlePostStudent,
+  // handleloadGroups
 }) => {
   const [name, setName] = useState<string>("");
   const [age, setAge] = useState<string>("");
@@ -42,11 +42,11 @@ const FormStudent: React.SFC<FormStudentProps> = ({
     if (listGroups.length) setGroupId(listGroups[0].id);
   };
 
-  useEffect(() => {
-    handleResetCityId();
-    handleResetGroupId();
-    handleloadGroups();
-  }, []);
+  // useEffect(() => {
+  //   handleResetCityId();
+  //   handleResetGroupId();
+  //   handleloadGroups();
+  // }, []);
 
   const handlesResetAll = () => {
     setName("");
@@ -61,16 +61,16 @@ const FormStudent: React.SFC<FormStudentProps> = ({
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    handlePostStudent({
-      name: name,
-      age: Number(age),
-      sex: sex,
-      birthday: birthday,
-      cityId: cityId,
-      email: email,
-      groupId: groupId,
-      id: 0
-    });
+    // handlePostStudent({
+    //   name: name,
+    //   age: Number(age),
+    //   sex: sex,
+    //   birthday: birthday,
+    //   cityId: cityId,
+    //   email: email,
+    //   groupId: groupId,
+    //   id: 0
+    // });
 
     handlesResetAll();
   };
@@ -141,7 +141,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
         <Form.Control
           pattern="[a-z A-Z]*"
           value={name}
-          required
+          // required
           type="text"
           placeholder="Enter full name"
           onChange={(e: any) => {
@@ -153,7 +153,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Email</Form.Label>
         <Form.Control
-          required
+          // required
           type="email"
           value={email}
           placeholder="Enter email"
@@ -167,7 +167,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Age</Form.Label>
         <Form.Control
-          required
+          // required
           type="number"
           min="5"
           max="100"
@@ -183,7 +183,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Birthday</Form.Label>
         <Form.Control
-          required
+          // required
           type="date"
           value={birthday}
           onChange={(e: any) => {
@@ -209,9 +209,9 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    listCities: state.cities,
-    listGroups: state.groups,
-    fetching: state.fetching
+    listCities: state.cities.data,
+    listGroups: state.groups.data,
+    fetching: state.students.isFetching
   };
 };
 
@@ -219,8 +219,8 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  handlePostStudent: Actions.PostStudentThunk,
-  handleloadGroups: Actions.FetchGroupsThunk
+  // handlePostStudent: Actions.PostStudentThunk,
+  // handleloadGroups: Actions.FetchGroupsThunk
 };
 
 export default ReactRedux.connect(

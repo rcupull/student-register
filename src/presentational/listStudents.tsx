@@ -28,26 +28,22 @@ export interface StateProps {
   listCities: City[];
   listProfessors: Professor[];
 }
-export interface DispatchProps {
-  handleDeleteStudent: (student: Student) => void;
-  handleLoadStudents: () => void;
-  handleLoadGroup: () => void;
-}
+export interface DispatchProps {}
 type ListStudentsProps = OwnProps & StateProps & DispatchProps;
 
 const ListStudents: React.SFC<ListStudentsProps> = ({
   listStudents,
   listGroups,
   listCities,
-  listProfessors,
-  handleDeleteStudent,
-  handleLoadStudents,
-  handleLoadGroup
+  listProfessors
+  // handleDeleteStudent,
+  // handleLoadStudents,
+  // handleLoadGroup
 }) => {
-  useEffect(() => {
-    handleLoadStudents();
-    handleLoadGroup();
-  }, []);
+  // useEffect(() => {
+  //   handleLoadStudents();
+  //   handleLoadGroup();
+  // }, []);
 
   return (
     <Fragment>
@@ -78,7 +74,7 @@ const ListStudents: React.SFC<ListStudentsProps> = ({
                 <Button
                   style={styles.listDeleteButtonStyle}
                   onClick={() => {
-                    handleDeleteStudent(student);
+                    // handleDeleteStudent(student);
                   }}
                 >
                   Delete
@@ -104,38 +100,41 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   switch (state.currentFilterVs.type) {
     case "City":
       listStudents = _.filter(
-        state.students,
+        state.students.data,
         student => student.cityId === state.currentFilterVs.option
       );
       break;
     case "Group":
       listStudents = _.filter(
-        state.students,
+        state.students.data,
         student => student.groupId === state.currentFilterVs.option
       );
       break;
     case "Professor":
       var group: Group | undefined = _.find(
-        state.groups,
+        state.groups.data,
         group => group.professorId === state.currentFilterVs.option
       );
 
       listStudents =
         typeof group === undefined
-          ? state.students
-          : _.filter(state.students, student => student.groupId === group?.id);
+          ? state.students.data
+          : _.filter(
+              state.students.data,
+              student => student.groupId === group?.id
+            );
       break;
     case "All":
     default:
-      listStudents = state.students;
+      listStudents = state.students.data;
       break;
   }
 
   return {
     listStudents: listStudents,
-    listCities: state.cities,
-    listGroups: state.groups,
-    listProfessors: state.professors
+    listCities: state.cities.data,
+    listGroups: state.groups.data,
+    listProfessors: state.professors.data
   };
 };
 
@@ -143,9 +142,9 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   DispatchProps,
   OwnProps
 > = {
-  handleDeleteStudent: Actions.DeleteStudentThunk,
-  handleLoadGroup: Actions.FetchGroupsThunk,
-  handleLoadStudents: Actions.FetchStudentsThunk
+  // handleDeleteStudent: Actions.DeleteStudentThunk,
+  // handleLoadGroup: Actions.FetchGroupsThunk,
+  // handleLoadStudents: Actions.FetchStudentsThunk
 };
 
 export default ReactRedux.connect(

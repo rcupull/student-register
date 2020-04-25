@@ -149,9 +149,9 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    listProfessor: state.professors,
-    listCities: state.cities,
-    listGroups: state.groups,
+    listProfessor: state.professors.data,
+    listCities: state.cities.data,
+    listGroups: state.groups.data,
     currentFilterVs: state.currentFilterVs
   };
 };

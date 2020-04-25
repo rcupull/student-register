@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-
+import { Payload_Items } from "./dataTypes";
 ////////////////////////////////API/////////////////////////////
 const hostName = "http://localhost";
 const port = ":3001";
@@ -12,6 +12,21 @@ export const studentsURL = hostName + port + pathStudents;
 export const groupURL = hostName + port + pathGroups;
 export const professorURL = hostName + port + pathProfessors;
 export const citiesURL = hostName + port + pathCities;
+
+export const GetURL = (item: Payload_Items): string => {
+  switch (item) {
+    case "students":
+      return studentsURL;
+    case "professors":
+      return professorURL;
+    case "groups":
+      return groupURL;
+    case "cities":
+      return citiesURL;
+    default:
+      return "";
+  }
+};
 
 export const getStudentsRequestConfig: AxiosRequestConfig = {
   method: "GET",
