@@ -1,46 +1,22 @@
 {
+  "isOnlineFlag": {},
   "students": [
     {
-      "name": "Juan Jose",
-      "age": 50,
+      "name": "asdad",
+      "age": 45,
       "sex": "Male",
-      "birthday": "0004-06-25",
-      "cityId": 1,
-      "email": "jose@gmail.com",
-      "groupId": 12,
-      "id": 4
-    },
-    {
-      "name": "New user",
-      "age": 56,
-      "sex": "Male",
-      "birthday": "0089-06-25",
-      "cityId": 1,
-      "email": "asdada@sfgsdfg",
-      "groupId": 12,
-      "id": 5
-    },
-    {
-      "name": "",
-      "age": 0,
-      "sex": "Male",
-      "birthday": "",
-      "cityId": 1,
-      "email": "",
-      "groupId": 8,
-      "id": 8
+      "birthday": "0487-05-12",
+      "cityId": 0,
+      "email": "asdfasf@fgdfg",
+      "groupId": 1,
+      "id": 1
     }
   ],
   "groups": [
     {
-      "name": "A-85",
-      "professorId": 3,
-      "id": 8
-    },
-    {
-      "name": "H-90",
-      "professorId": 5,
-      "id": 12
+      "name": "a14",
+      "professorId": 1,
+      "id": 1
     }
   ],
   "professors": [

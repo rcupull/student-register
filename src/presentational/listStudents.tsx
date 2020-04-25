@@ -44,13 +44,11 @@ const ListStudents: React.SFC<ListStudentsProps> = ({
   handleLoadStudents,
   handleLoadGroup
 }) => {
-  // console.log("inside student");
   useEffect(() => {
     handleLoadStudents();
     handleLoadGroup();
   }, []);
 
-  // console.log("listGroups", listGroups);
   return (
     <Fragment>
       <Filter />
@@ -137,7 +135,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   }
 
   return {
-    listStudents: state.students.data,
+    listStudents: listStudents,
     listCities: state.cities.data,
     listGroups: state.groups.data,
     listProfessors: state.professors.data

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as ReactRedux from "react-redux";
 
 import { Container } from "react-bootstrap";
@@ -18,12 +18,11 @@ import { Actions } from "./reducers/actions";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 export interface OwnProps {}
-export interface StateProps {
-  error: boolean;
-}
+export interface StateProps {}
 export interface DispatchProps {
   loadCities: () => void;
   loadProffesors: () => void;
+  checkIsOnline: () => void;
 }
 
 type AppConnectedProps = OwnProps & StateProps & DispatchProps;
@@ -31,37 +30,18 @@ type AppConnectedProps = OwnProps & StateProps & DispatchProps;
 const AppConnected: React.SFC<AppConnectedProps> = ({
   loadCities,
   loadProffesors,
-  error
+  checkIsOnline
 }) => {
-  const [time, setTime] = useState<NodeJS.Timeout>(setTimeout(() => {}, 1));
-  const handleLoad = () => {
-    loadCities();
-    loadProffesors();
-  };
-
-  const stopTimer = () => {
-    clearInterval(time);
-  };
   const startTimer = () => {
-    setTime(
-      setInterval(() => {
-        handleLoad();
-      }, 5000)
-    );
-  };
-
-  const handleCheckError = () => {
-    if (error) {
-      startTimer();
-    } else {
-      stopTimer();
-    }
+    setInterval(() => {
+      checkIsOnline();
+    }, 5000);
   };
 
   useEffect(() => {
     loadCities();
     loadProffesors();
-    // handleCheckError();
+    startTimer();
   }, []);
 
   return (
@@ -85,7 +65,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    error: false //TODO
+    error: state.cities.errorFetch
   };
 };
 
@@ -94,7 +74,8 @@ const MapDispatchToProps: ReactRedux.MapDispatchToProps<
   OwnProps
 > = {
   loadCities: Actions.FetchCities,
-  loadProffesors: Actions.FetchProfessors
+  loadProffesors: Actions.FetchProfessors,
+  checkIsOnline: Actions.CheckIsOnlineThunk
 };
 
 export default ReactRedux.connect(

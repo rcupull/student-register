@@ -58,18 +58,18 @@ export interface Payload_SuccessFetch {
 }
 
 export interface RootReducerState {
-  selectedItem: Item;
   students: FetchGenericState<Student>;
   professors: FetchGenericState<Professor>;
   groups: FetchGenericState<Group>;
   cities: FetchGenericState<City>;
   vsFilter: FilterVs;
+  isOnline: boolean;
 }
 export const defaultRootReducerState: RootReducerState = {
-  selectedItem: "students",
   cities: { ...defaultFetchingState },
   students: { ...defaultFetchingState },
   groups: { ...defaultFetchingState },
   professors: { ...defaultFetchingState },
-  vsFilter: defaultFilterVs
+  vsFilter: defaultFilterVs,
+  isOnline: true
 };

@@ -34,19 +34,20 @@ const FormStudent: React.SFC<FormStudentProps> = ({
   const [cityId, setCityId] = useState<number>(0);
   const [birthday, setBirthday] = useState<string>("");
 
-  const handleResetCityId = () => {
-    if (listCities.length) setCityId(listCities[0].id);
-  };
-
   const handleResetGroupId = () => {
     if (listGroups.length) setGroupId(listGroups[0].id);
   };
-
+  const handleResetCityId = () => {
+    if (listCities.length) setGroupId(listCities[0].id);
+  };
   useEffect(() => {
     handleResetCityId();
-    handleResetGroupId();
     handleLoadGroups();
   }, []);
+
+  useEffect(() => {
+    handleResetGroupId();
+  }, [listGroups]);
 
   const handlesResetAll = () => {
     setName("");
@@ -141,7 +142,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
         <Form.Control
           pattern="[a-z A-Z]*"
           value={name}
-          // required
+          required
           type="text"
           placeholder="Enter full name"
           onChange={(e: any) => {
@@ -153,7 +154,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Email</Form.Label>
         <Form.Control
-          // required
+          required
           type="email"
           value={email}
           placeholder="Enter email"
@@ -167,7 +168,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Age</Form.Label>
         <Form.Control
-          // required
+          required
           type="number"
           min="5"
           max="100"
@@ -183,7 +184,7 @@ const FormStudent: React.SFC<FormStudentProps> = ({
       <Form.Group>
         <Form.Label>Birthday</Form.Label>
         <Form.Control
-          // required
+          required
           type="date"
           value={birthday}
           onChange={(e: any) => {

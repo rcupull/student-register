@@ -5,18 +5,18 @@ import { RootReducerState } from "../reducers/dataTypes";
 import * as ReactRedux from "react-redux";
 export interface OwnProps {}
 export interface StateProps {
-  error: boolean;
+  isOnline: boolean;
 }
 export interface DispatchProps {}
 type HomeProps = OwnProps & StateProps & DispatchProps;
 
-const Home: React.SFC<HomeProps> = ({ error }) => {
+const Home: React.SFC<HomeProps> = ({ isOnline }) => {
   return (
     <Card style={styles.homeCardBodyStyle}>
       <Card.Body>
         <Card.Title>
           Application for the administration of students{" "}
-          {error ? "<<CONNECTION FAIL>>" : ""}
+          {!isOnline ? "<<CONNECTION FAIL>>" : ""}
         </Card.Title>
         <Card.Text>
           Download 'db.json' file from source code. Install json-server (
@@ -37,7 +37,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    error: false
+    isOnline: state.isOnline
   };
 };
 

@@ -6,11 +6,13 @@ const pathStudents = "/students";
 const pathProfessors = "/professors";
 const pathGroups = "/groups";
 const pathCities = "/cities";
+const pathIsOnline = "/isOnlineFlag";
 
-export const studentsURL = hostName + port + pathStudents;
-export const groupURL = hostName + port + pathGroups;
-export const professorURL = hostName + port + pathProfessors;
-export const citiesURL = hostName + port + pathCities;
+const studentsURL = hostName + port + pathStudents;
+const groupURL = hostName + port + pathGroups;
+const professorURL = hostName + port + pathProfessors;
+const citiesURL = hostName + port + pathCities;
+export const isOnlineURL = hostName + port + pathIsOnline;
 
 export const GetURL = (item: Item): string => {
   switch (item) {

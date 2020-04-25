@@ -8,7 +8,7 @@ export interface OwnProps {
   path: string;
 }
 export interface StateProps {
-  error: boolean;
+  isOnline: boolean;
 }
 export interface DispatchProps {}
 
@@ -16,12 +16,12 @@ type RouteConnectedProps = OwnProps & StateProps & DispatchProps;
 const RouteConnected: React.SFC<RouteConnectedProps> = ({
   component: Component,
   path,
-  error
+  isOnline
 }) => {
-  return error ? (
-    <Redirect to={homeRoute} />
-  ) : (
+  return isOnline ? (
     <Route path={path} component={Component} />
+  ) : (
+    <Redirect to={homeRoute} />
   );
 };
 
@@ -31,7 +31,7 @@ const MapStateToProps: ReactRedux.MapStateToProps<
   RootReducerState
 > = (state, ownProps) => {
   return {
-    error: false
+    isOnline: state.isOnline
   };
 };
 
