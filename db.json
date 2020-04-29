@@ -2,21 +2,51 @@
   "isOnlineFlag": {},
   "students": [
     {
-      "name": "asdad",
-      "age": 45,
+      "name": "Lester Castillo Perez",
+      "age": 21,
       "sex": "Male",
-      "birthday": "0487-05-12",
-      "cityId": 0,
-      "email": "asdfasf@fgdfg",
+      "birthday": "1990-03-15",
+      "cityId": 5,
+      "email": "lester@gmail.com",
       "groupId": 1,
       "id": 1
+    },
+    {
+      "name": "Frank Gonzalez Loa",
+      "age": 30,
+      "sex": "Male",
+      "birthday": "2000-09-23",
+      "cityId": 3,
+      "email": "frank@hotmail.com",
+      "groupId": 3,
+      "id": 2
+    },
+    {
+      "name": "Lorena Minko Castillo",
+      "age": 40,
+      "sex": "Female",
+      "birthday": "1995-10-19",
+      "cityId": 8,
+      "email": "lo@gmail.com",
+      "groupId": 1,
+      "id": 3
     }
   ],
   "groups": [
     {
-      "name": "a14",
+      "name": "A24",
       "professorId": 1,
       "id": 1
+    },
+    {
+      "name": "A56",
+      "professorId": 2,
+      "id": 2
+    },
+    {
+      "name": "B96",
+      "professorId": 3,
+      "id": 3
     }
   ],
   "professors": [

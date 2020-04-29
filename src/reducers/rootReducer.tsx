@@ -46,14 +46,10 @@ export const RootReducer: Reducer<RootReducerState, OwnAction> = (
       tmpState.vsFilter = action.vsFilter;
       break;
     case "IS_ONLINE":
-      console.log(action);
       tmpState.isOnline = action.value;
       break;
     default:
       break;
   }
-  // console.log("action", action);
-  // console.log("old State", state);
-  // console.log("new state", tmpState);
   return tmpState;
 };
